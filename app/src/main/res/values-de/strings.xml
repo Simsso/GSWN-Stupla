@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">GSWN Stupla</string>
+
+    <string name="action_settings">Einstellungen</string>
+    <string name="choose_an_element">Wählen Sie ein Element</string>
+    <string name="title_activity_stupla">Stundenplan</string>
+    <string name="previous_week">Vorherige Woche</string>
+    <string name="next_week">Nächste Woche</string>
+</resources>
