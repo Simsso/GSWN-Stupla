@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.lvElement = (ListView) findViewById(R.id.lvElements);
 
+        // show logo in action bar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setLogo(R.drawable.icon);
         actionBar.setDisplayUseLogoEnabled(true);
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         fetchAndShowElementList();
 
+        // listen for click on list element
         this.lvElement.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -43,8 +45,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // check whether a stored element id is available
         int savedElementId = LocalStorage.loadElementId(this);
         if (((StuplaApplication)getApplication()).firstStart && savedElementId >= 0) {
+            // if it is show the stupla of the id
             showStupla(savedElementId);
         }
         ((StuplaApplication)getApplication()).firstStart = false;
@@ -55,10 +59,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
+                    // fetch array of elements
                     MainActivity.elements = Server.getElementNames();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            // link array of element names to the list view
                             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                                     MainActivity.this,
                                     android.R.layout.simple_list_item_1,
@@ -75,14 +81,18 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+        // server request in a separate thread to keep the ui responsive
         thread.start();
     }
 
     private void showStupla(int elementId) {
+        // save which element the user uses
         LocalStorage.saveElementId(this, elementId);
 
         Intent intent = new Intent(MainActivity.this, StuplaActivity.class);
+        // pass the element id to the stupla activity
         intent.putExtra(ELEMENT_ID_MESSAGE, elementId);
+        // start stupla activity
         startActivity(intent);
     }
 }

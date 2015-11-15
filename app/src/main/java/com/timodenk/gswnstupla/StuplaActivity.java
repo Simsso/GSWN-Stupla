@@ -31,8 +31,8 @@ public class StuplaActivity extends AppCompatActivity {
         // web view settings
         this.wvStupla = (WebView) findViewById(R.id.wvStupla);
         wvStupla.getSettings().setLoadWithOverviewMode(true);
-        wvStupla.getSettings().setUseWideViewPort(true);
-        wvStupla.getSettings().setBuiltInZoomControls(true);
+        wvStupla.getSettings().setUseWideViewPort(true); // zoom out
+        wvStupla.getSettings().setBuiltInZoomControls(true); // allow to zoom in
 
 
         // set week to current week
@@ -80,12 +80,12 @@ public class StuplaActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.next_week:
+            // next and previous week buttons allow the user to navigate through the weeks
+            case R.id.next_week: // next week
                 this.chosenWeek++;
                 updateWebView();
                 break;
-            // action with ID action_settings was selected
-            case R.id.previous_week:
+            case R.id.previous_week: // previous week
                 this.chosenWeek--;
                 updateWebView();
                 break;
@@ -93,12 +93,16 @@ public class StuplaActivity extends AppCompatActivity {
                 break;
         }
 
+        // has to be called to keep the back button working
         return (super.onOptionsItemSelected(item));
     }
 
 
     private void updateWebView() {
+        // clear the web view
         this.wvStupla.loadUrl("about:blank");
+
+        // request the url in a separate thread to keep the ui responsive
         Thread thread = new Thread() {
             @Override
             public void run() {
@@ -108,6 +112,7 @@ public class StuplaActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            // update web view url
                             StuplaActivity.this.wvStupla.loadUrl(url);
                         }
                     });
