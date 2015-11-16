@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static String[] elements;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +52,11 @@ public class MainActivity extends AppCompatActivity {
             // if it is show the stupla of the id
             showStupla(savedElementId);
         }
+
         ((StuplaApplication)getApplication()).firstStart = false;
     }
+
+
 
     private void fetchAndShowElementList() {
         Thread thread = new Thread() {

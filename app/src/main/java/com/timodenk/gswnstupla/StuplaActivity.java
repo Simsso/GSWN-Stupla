@@ -23,6 +23,7 @@ public class StuplaActivity extends AppCompatActivity {
 
     private WebView wvStupla;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +69,8 @@ public class StuplaActivity extends AppCompatActivity {
         };
 
         thread.start();
+
+        ((StuplaApplication)getApplication()).firstStart = false;
     }
 
     @Override
