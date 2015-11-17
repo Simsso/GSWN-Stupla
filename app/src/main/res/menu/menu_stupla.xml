@@ -1,12 +1,13 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:com.timodenk.gswnstupla="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/previous_week"
         android:icon="@drawable/ic_keyboard_arrow_left_white_48dp"
         android:title="@string/previous_week"
-        android:showAsAction="ifRoom"/>
+        com.timodenk.gswnstupla:showAsAction="ifRoom"/>
     <item
         android:id="@+id/next_week"
         android:icon="@drawable/ic_keyboard_arrow_right_white_48dp"
         android:title="@string/next_week"
-        android:showAsAction="ifRoom"/>
+        com.timodenk.gswnstupla:showAsAction="ifRoom"/>
 </menu>

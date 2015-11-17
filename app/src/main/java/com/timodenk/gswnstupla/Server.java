@@ -1,7 +1,5 @@
 package com.timodenk.gswnstupla;
 
-import android.util.Log;
-
 import com.timodenk.json.GetParameter;
 import com.timodenk.json.JsonReader;
 import com.timodenk.json.UrlBuilder;

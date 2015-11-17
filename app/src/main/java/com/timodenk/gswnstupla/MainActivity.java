@@ -9,8 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.timodenk.json.*;
-
 import org.json.JSONException;
 
 import java.io.IOException;

@@ -1,15 +1,13 @@
 package com.timodenk.gswnstupla;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.webkit.WebView;
-import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -39,6 +37,16 @@ public class StuplaActivity extends AppCompatActivity {
         // set week to current week
         Calendar c = Calendar.getInstance();
         this.chosenWeek = c.get(Calendar.WEEK_OF_YEAR);
+
+        // show next week on sunday
+        if (c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+            if (c.getFirstDayOfWeek() == Calendar.MONDAY) {
+                incrementChosenWeek();
+            }
+
+            // show information that the user sees the next week
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.showing_next_week), Toast.LENGTH_LONG).show();
+        }
 
         // read passed element id
         Intent intent = getIntent();
@@ -85,11 +93,11 @@ public class StuplaActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // next and previous week buttons allow the user to navigate through the weeks
             case R.id.next_week: // next week
-                this.chosenWeek++;
+                incrementChosenWeek();
                 updateWebView();
                 break;
             case R.id.previous_week: // previous week
-                this.chosenWeek--;
+                decrementChosenWeek();
                 updateWebView();
                 break;
             default:
@@ -128,5 +136,27 @@ public class StuplaActivity extends AppCompatActivity {
         };
 
         thread.start();
+    }
+
+    private void incrementChosenWeek() {
+        int tmp = this.chosenWeek;
+        tmp++;
+
+        while (tmp > 52) {
+            tmp -= 52;
+        }
+
+        this.chosenWeek = tmp;
+    }
+
+    private void decrementChosenWeek() {
+        int tmp = this.chosenWeek;
+        tmp--;
+
+        while (tmp <= 0) {
+            tmp += 52;
+        }
+
+        this.chosenWeek = tmp;
     }
 }
