@@ -5,6 +5,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -72,7 +73,14 @@ public class MainActivity extends AppCompatActivity {
     private void fetchAndShowElementList() {
         // show loading information
         if (!this.elementsSwipeRefreshLayout.isRefreshing()) {
-            this.elementsSwipeRefreshLayout.setRefreshing(true);
+            // instead of just calling elementsSwipeRefreshLayout.setRefreshting(true) call it as follows
+            // because of this bug (https://code.google.com/p/android/issues/detail?id=77712)
+            this.elementsSwipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    MainActivity.this.elementsSwipeRefreshLayout.setRefreshing(true);
+                }
+            });
         }
 
         Thread thread = new Thread() {
