@@ -1,6 +1,7 @@
 package com.timodenk.gswnstupla;
 
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,7 +17,9 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
     public static final String ELEMENT_ID_MESSAGE = "com.timodenk.gswnstupla.ELEMENT_ID_MESSAGE", PREFS_NAME = "GSWN_Stupla_Preferences";
 
-    ListView lvElement;
+    private ListView lvElement;
+
+    private SwipeRefreshLayout elementsSwipeRefreshLayout;
 
     public static String[] elements;
 
@@ -33,6 +36,16 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setLogo(R.drawable.icon);
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
+
+        this.elementsSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.elementsSwipeRefreshLayout);
+        this.elementsSwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        fetchAndShowElementList();
+                    }
+                }
+        );
 
         fetchAndShowElementList();
 
@@ -57,6 +70,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void fetchAndShowElementList() {
+        // show loading information
+        if (!this.elementsSwipeRefreshLayout.isRefreshing()) {
+            this.elementsSwipeRefreshLayout.setRefreshing(true);
+        }
+
         Thread thread = new Thread() {
             @Override
             public void run() {
@@ -72,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                                     android.R.layout.simple_list_item_1,
                                     MainActivity.elements);
                             MainActivity.this.lvElement.setAdapter(arrayAdapter);
+                            MainActivity.this.elementsSwipeRefreshLayout.setRefreshing(false);
                         }
                     });
 

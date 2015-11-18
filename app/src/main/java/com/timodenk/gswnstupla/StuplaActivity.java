@@ -1,12 +1,15 @@
 package com.timodenk.gswnstupla;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -21,6 +24,8 @@ public class StuplaActivity extends AppCompatActivity {
 
     private WebView wvStupla;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,53 +37,40 @@ public class StuplaActivity extends AppCompatActivity {
         wvStupla.getSettings().setLoadWithOverviewMode(true);
         wvStupla.getSettings().setUseWideViewPort(true); // zoom out
         wvStupla.getSettings().setBuiltInZoomControls(true); // allow to zoom in
-
-
-        // set week to current week
-        Calendar c = Calendar.getInstance();
-        this.chosenWeek = c.get(Calendar.WEEK_OF_YEAR);
-
-        // show next week on sunday
-        if (c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-            if (c.getFirstDayOfWeek() == Calendar.MONDAY) {
-                incrementChosenWeek();
-            }
-
-            // show information that the user sees the next week
-            Toast.makeText(getApplicationContext(), getResources().getString(R.string.showing_next_week), Toast.LENGTH_LONG).show();
-        }
-
-        // read passed element id
-        Intent intent = getIntent();
-        this.chosenElementId = intent.getIntExtra(MainActivity.ELEMENT_ID_MESSAGE, 0);
-
-        // updates the url of the web view
-        updateWebView();
-
-        // download the name of the chosen element
-        Thread thread = new Thread() {
+        wvStupla.setWebViewClient(new WebViewClient() {
             @Override
-            public void run() {
-                try {
-                    StuplaActivity.this.chosenElementName = Server.getElementName(StuplaActivity.this.chosenElementId);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            setTitle(StuplaActivity.this.chosenElementName);
-                        }
-                    });
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                if (StuplaActivity.this.swipeRefreshLayout.isRefreshing() == false) {
+                    StuplaActivity.this.swipeRefreshLayout.setRefreshing(true); // show loading information
                 }
             }
-        };
 
-        thread.start();
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                if (!url.equals("about:blank")) {
+                    StuplaActivity.this.swipeRefreshLayout.setRefreshing(false); // hide loading information
+                }
+            }
+        });
 
-        ((StuplaApplication)getApplication()).firstStart = false;
+        this.swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        this.swipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        updateTaskBarElementName();
+
+                        // clear cache when the user refreshes manually
+                        StuplaActivity.this.wvStupla.clearCache(true);
+                        updateWebView();
+                    }
+                }
+        );
+
+        // read passed element id, defines chosen week, updates webview and action bar text
+        initialize();
+
+        ((StuplaApplication) getApplication()).firstStart = false;
     }
 
     @Override
@@ -106,6 +98,56 @@ public class StuplaActivity extends AppCompatActivity {
 
         // has to be called to keep the back button working
         return (super.onOptionsItemSelected(item));
+    }
+
+    private void initialize() {
+        // set week to current week
+        Calendar c = Calendar.getInstance();
+        this.chosenWeek = c.get(Calendar.WEEK_OF_YEAR);
+
+        // show next week on sunday
+        if (c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+            if (c.getFirstDayOfWeek() == Calendar.MONDAY) {
+                incrementChosenWeek();
+            }
+
+            // show information that the user sees the next week
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.showing_next_week), Toast.LENGTH_LONG).show();
+        }
+
+        // read passed element id
+        Intent intent = getIntent();
+        this.chosenElementId = intent.getIntExtra(MainActivity.ELEMENT_ID_MESSAGE, 0);
+
+        // updates the url of the web view
+        updateWebView();
+
+        updateTaskBarElementName();
+    }
+
+    private void updateTaskBarElementName() {
+        // download the name of the chosen element
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    StuplaActivity.this.chosenElementName = Server.getElementName(StuplaActivity.this.chosenElementId);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setTitle(StuplaActivity.this.chosenElementName);
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        thread.start();
     }
 
 
