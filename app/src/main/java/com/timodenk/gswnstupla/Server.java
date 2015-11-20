@@ -15,7 +15,10 @@ import java.io.IOException;
  */
 public class Server {
     // server links
-    public static final String ELEMENTS_ADDRESS = "http://www.simsso.de/gswnstupla/elements.php", ELEMENT_NAME_ADDRESS = "http://www.simsso.de/gswnstupla/element-name.php", ELEMENT_URL_ADDRESS = "http://www.simsso.de/gswnstupla/url.php";
+    public static final String ELEMENTS_ADDRESS = "http://www.simsso.de/gswnstupla/elements.php",
+            ELEMENT_NAME_ADDRESS = "http://www.simsso.de/gswnstupla/element-name.php",
+            ELEMENT_URL_ADDRESS = "http://www.simsso.de/gswnstupla/url.php",
+            AVAILABLE_WEEKS_ADDRESS = "http://www.simsso.de/gswnstupla/available-weeks.php";
 
     // fetches the element names from the server
     public static String[] getElementNames() throws IOException, JSONException {
@@ -60,5 +63,26 @@ public class Server {
         JSONObject response = JsonReader.readJsonFromUrl(ELEMENT_URL_ADDRESS + UrlBuilder.getGetParameterPart(parameters));
 
         return response.get("url").toString();
+    }
+
+
+    // fetches the available weeks from the server
+    public static int[] getAvailableWeeks() throws IOException, JSONException {
+        JSONObject response = JsonReader.readJsonFromUrl(AVAILABLE_WEEKS_ADDRESS);
+        JSONArray jsonArray = response.getJSONArray("weeks");
+
+        // convert JSON array into normal string array
+        if (jsonArray != null) {
+            int elementsCount = jsonArray.length();
+
+            // fill elements array from jsonArray
+            int[] weeks = new int[elementsCount];
+            for (int i = 0; i < elementsCount; i++) {
+                weeks[i] = Integer.parseInt(jsonArray.get(i).toString());
+            }
+
+            return weeks;
+        }
+        return null;
     }
 }
