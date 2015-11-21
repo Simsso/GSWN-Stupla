@@ -68,6 +68,8 @@ public class StuplaControl {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
+                } catch (ServerCantProvideServiceException e) {
+                    e.printStackTrace();
                 }
             }
         };
@@ -92,6 +94,8 @@ public class StuplaControl {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ServerCantProvideServiceException e) {
                     e.printStackTrace();
                 }
             }
@@ -122,6 +126,8 @@ public class StuplaControl {
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (ServerCantProvideServiceException e) {
                     e.printStackTrace();
                 }
             }

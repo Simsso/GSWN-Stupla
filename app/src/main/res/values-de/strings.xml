@@ -7,4 +7,5 @@
     <string name="previous_week">Vorherige Woche</string>
     <string name="next_week">Nächste Woche</string>
     <string name="showing_next_week">Stundenplan für nächste Woche wird angezeigt (weil heute Sonntag ist)</string>
+    <string name="server_cant_provide_service">Der Server ist derzeit nicht in der Lage, seine Aufgabe zu erfüllen.</string>
 </resources>

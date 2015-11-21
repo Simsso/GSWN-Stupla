@@ -1,6 +1,6 @@
 package com.timodenk.gswnstupla;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
@@ -8,16 +8,16 @@ import android.content.SharedPreferences;
  */
 public class LocalStorage {
     // stores an element id
-    public static void saveElementId(Activity activity, int elementId) {
-        SharedPreferences settings = activity.getSharedPreferences(MainActivity.PREFS_NAME, 0);
+    public static void saveElementId(Context context, int elementId) {
+        SharedPreferences settings = context.getSharedPreferences(MainActivity.PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("elementId", elementId);
         editor.apply();
     }
 
     // loads the stored element id
-    public static int loadElementId(Activity activity) {
-        SharedPreferences settings = activity.getSharedPreferences(MainActivity.PREFS_NAME, 0);
+    public static int loadElementId(Context context) {
+        SharedPreferences settings = context.getSharedPreferences(MainActivity.PREFS_NAME, 0);
         return settings.getInt("elementId", -1);
     }
 }

@@ -115,8 +115,8 @@ public class StuplaActivity extends AppCompatActivity {
         return (super.onOptionsItemSelected(item));
     }
 
-    public void showToast(int textResorce) {
-        Toast.makeText(getApplicationContext(), getResources().getString(textResorce), Toast.LENGTH_LONG).show();
+    public void showToast(int textResource) {
+        Toast.makeText(getApplicationContext(), getResources().getString(textResource), Toast.LENGTH_LONG).show();
     }
 
 

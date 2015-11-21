@@ -5,7 +5,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -105,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ServerCantProvideServiceException e) {
                     e.printStackTrace();
                 }
             }
