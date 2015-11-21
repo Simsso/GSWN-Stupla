@@ -12,9 +12,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-/**
- * Created by Denk on 14/11/15.
- */
 public class JsonReader {
     private static String readAll(Reader rd) throws IOException {
         StringBuilder sb = new StringBuilder();
@@ -30,8 +27,7 @@ public class JsonReader {
         try {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
             String jsonText = readAll(rd);
-            JSONObject json = new JSONObject(jsonText);
-            return json;
+            return new JSONObject(jsonText);
         } finally {
             is.close();
         }

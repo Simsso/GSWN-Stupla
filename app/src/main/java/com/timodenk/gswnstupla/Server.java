@@ -10,15 +10,13 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-/**
- * Created by Denk on 14/11/15.
- */
-public class Server {
+
+class Server {
     // server links
-    public static final String ELEMENTS_ADDRESS = "http://www.simsso.de/gswnstupla/elements.php",
-            ELEMENT_NAME_ADDRESS = "http://www.simsso.de/gswnstupla/element-name.php",
-            ELEMENT_URL_ADDRESS = "http://www.simsso.de/gswnstupla/url.php",
-            AVAILABLE_WEEKS_ADDRESS = "http://www.simsso.de/gswnstupla/available-weeks.php";
+    private static final String ELEMENTS_ADDRESS = "http://www.simsso.de/gswnstupla/elements.php";
+    private static final String ELEMENT_NAME_ADDRESS = "http://www.simsso.de/gswnstupla/element-name.php";
+    private static final String ELEMENT_URL_ADDRESS = "http://www.simsso.de/gswnstupla/url.php";
+    private static final String AVAILABLE_WEEKS_ADDRESS = "http://www.simsso.de/gswnstupla/available-weeks.php";
 
     // fetches the element names from the server
     public static String[] getElementNames() throws IOException, JSONException, ServerCantProvideServiceException {

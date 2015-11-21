@@ -3,10 +3,8 @@ package com.timodenk.gswnstupla;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-/**
- * Created by Denk on 14/11/15.
- */
-public class LocalStorage {
+
+class LocalStorage {
     // stores an element id
     public static void saveElementId(Context context, int elementId) {
         SharedPreferences settings = context.getSharedPreferences(MainActivity.PREFS_NAME, 0);

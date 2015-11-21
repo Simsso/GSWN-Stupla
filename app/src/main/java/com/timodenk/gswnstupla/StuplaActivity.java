@@ -21,8 +21,7 @@ public class StuplaActivity extends AppCompatActivity {
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private Menu stuplaMenu;
-    public MenuItem nextWeek = null, previousWeek = null;
+    private MenuItem nextWeek = null, previousWeek = null;
 
 
     @Override
@@ -39,7 +38,7 @@ public class StuplaActivity extends AppCompatActivity {
         wvStupla.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                if (swipeRefreshLayout.isRefreshing() == false) {
+                if (!swipeRefreshLayout.isRefreshing()) {
                     swipeRefreshLayout.setRefreshing(true); // show loading information
                 }
             }
@@ -84,9 +83,8 @@ public class StuplaActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_stupla, menu);
 
-        this.stuplaMenu = menu;
-        this.nextWeek = this.stuplaMenu.findItem(R.id.next_week);
-        this.previousWeek = this.stuplaMenu.findItem(R.id.previous_week);
+        this.nextWeek = menu.findItem(R.id.next_week);
+        this.previousWeek = menu.findItem(R.id.previous_week);
 
         return true;
     }

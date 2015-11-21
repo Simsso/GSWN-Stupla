@@ -5,15 +5,14 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.Calendar;
 
-/**
- * Created by Denk on 21/11/15.
- */
-public class StuplaControl {
+
+class StuplaControl {
     public static final String URL_ABOUT_BLANK = "about:blank";
 
-    StuplaActivity ui;
+    private final StuplaActivity ui;
 
-    private int chosenElementId, chosenWeek;
+    private final int chosenElementId;
+    private int chosenWeek;
 
     private int[] availableWeeks = null;
 
@@ -24,7 +23,7 @@ public class StuplaControl {
         this.ui = stuplaActivity;
         this.chosenElementId = chosenElementId;
 
-        // read passed element id, defines chosen week, updates webview and action bar text
+        // read passed element id, defines chosen week, updates web view and action bar text
         initialize();
     }
 
@@ -160,7 +159,7 @@ public class StuplaControl {
         return incrementWeekAvailable(incrementWeek(this.chosenWeek));
     }
 
-    public boolean incrementWeekAvailable(int newWeek) {
+    private boolean incrementWeekAvailable(int newWeek) {
         return (!(this.availableWeeks == null) && (weekAvailable(newWeek) || this.availableWeeks[0] > newWeek));
     }
 
@@ -168,7 +167,7 @@ public class StuplaControl {
         return decrementWeekAvailable(decrementWeek(this.chosenWeek));
     }
 
-    public boolean decrementWeekAvailable(int newWeek) {
+    private boolean decrementWeekAvailable(int newWeek) {
         return (!(this.availableWeeks == null) && (weekAvailable(newWeek) || this.availableWeeks[this.availableWeeks.length - 1] < newWeek));
     }
 
@@ -178,15 +177,15 @@ public class StuplaControl {
             return true;
         }
 
-        for (int i = 0; i < this.availableWeeks.length; i++) {
-            if (this.availableWeeks[i] == week) {
+        for (int availableWeek : this.availableWeeks) {
+            if (availableWeek == week) {
                 return true;
             }
         }
         return false;
     }
 
-    public static int incrementWeek(int week) {
+    private static int incrementWeek(int week) {
         week++;
 
         while (week > 52) {
@@ -196,7 +195,7 @@ public class StuplaControl {
         return week;
     }
 
-    public static int decrementWeek(int week) {
+    private static int decrementWeek(int week) {
         week--;
 
         while (week <= 0) {

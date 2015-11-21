@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SwipeRefreshLayout elementsSwipeRefreshLayout;
 
-    public static String[] elements;
+    private static String[] elements;
 
 
     @Override
@@ -33,9 +33,11 @@ public class MainActivity extends AppCompatActivity {
 
         // show logo in action bar
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setLogo(R.drawable.icon);
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
+        if (actionBar != null) {
+            actionBar.setLogo(R.drawable.icon);
+            actionBar.setDisplayUseLogoEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+        }
 
         this.elementsSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.elementsSwipeRefreshLayout);
         this.elementsSwipeRefreshLayout.setOnRefreshListener(
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     private void fetchAndShowElementList() {
         // show loading information
         if (!this.elementsSwipeRefreshLayout.isRefreshing()) {
-            // instead of just calling elementsSwipeRefreshLayout.setRefreshting(true) call it as follows
+            // instead of just calling elementsSwipeRefreshLayout.setRefreshing(true) call it as follows
             // because of this bug (https://code.google.com/p/android/issues/detail?id=77712)
             this.elementsSwipeRefreshLayout.post(new Runnable() {
                 @Override
