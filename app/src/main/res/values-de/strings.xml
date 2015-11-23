@@ -6,4 +6,7 @@
     <string name="next_week">Nächste Woche</string>
     <string name="showing_next_week">Stundenplan für nächste Woche wird angezeigt (weil heute Sonntag ist)</string>
     <string name="server_cant_provide_service">Der Server ist derzeit nicht in der Lage, seine Aufgabe zu erfüllen.</string>
+    <string name="server_not_available">Die Daten konnten nicht vom Server geladen werden. </string>
+    <string name="title_activity_message"></string>
+    <string name="unknown_server_error">Ein unbekannter Fehler ist aufgetreten.</string>
 </resources>

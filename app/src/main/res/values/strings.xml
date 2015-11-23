@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">GSWN Stupla</string>
-
     <string name="title_activity_stupla">Time table</string>
     <string name="previous_week">Previous week</string>
     <string name="next_week">Next week</string>
     <string name="showing_next_week">Showing the next week (because it is Sunday)</string>
-    <string name="server_cant_provide_service">The server is currently not able to fulfill it\'s task.</string>
+    <string name="server_not_available">Could not fetch data from the server.</string>
+    <string name="unknown_server_error">An unknown server error occurred.</string>
+    <string name="server_cant_provide_service">The server is currently not able to fulfill its task.</string>
 </resources>

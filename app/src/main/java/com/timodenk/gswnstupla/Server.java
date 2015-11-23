@@ -93,6 +93,6 @@ class Server {
     private static void checkServerResponse(JSONObject response) throws ServerCantProvideServiceException, JSONException {
         if (response.getInt("success") == 1)
             return;
-        throw new ServerCantProvideServiceException("The server is not able to fulfill it's task.", response.getString("message"));
+        throw new ServerCantProvideServiceException("The server is not able to fulfill its task.", response.getString("message"));
     }
 }
