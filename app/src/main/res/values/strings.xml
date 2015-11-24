@@ -7,4 +7,6 @@
     <string name="server_not_available">Could not fetch data from the server.</string>
     <string name="unknown_server_error">An unknown server error occurred.</string>
     <string name="server_cant_provide_service">The server is currently not able to fulfill its task.</string>
+    <string name="loading_element_list">Loading element list</string>
+    <string name="swipe_down_to_retry">Swipe down to retry</string>
 </resources>

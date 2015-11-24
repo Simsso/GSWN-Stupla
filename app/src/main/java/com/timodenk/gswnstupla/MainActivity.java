@@ -6,9 +6,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONException;
 
@@ -18,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String ELEMENT_ID_MESSAGE = "com.timodenk.gswnstupla.ELEMENT_ID_MESSAGE", PREFS_NAME = "GSWN_Stupla_Preferences";
 
     private ListView lvElement;
+
+    private TextView tvMessage, tvSwipeDownMessage;
 
     private SwipeRefreshLayout elementsSwipeRefreshLayout;
 
@@ -30,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         this.lvElement = (ListView) findViewById(R.id.lvElements);
+        this.tvMessage = (TextView) findViewById(R.id.tvMessage);
+        this.tvSwipeDownMessage = (TextView) findViewById(R.id.tvSwipeDownMessage);
 
         // show logo in action bar
         ActionBar actionBar = getSupportActionBar();
@@ -66,12 +72,30 @@ public class MainActivity extends AppCompatActivity {
             showStupla(savedElementId);
         }
 
+        lvElement.setOnScrollListener(new AbsListView.OnScrollListener()
+        {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState)
+            {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+            {
+                int topRowVerticalPosition = (lvElement == null || lvElement.getChildCount() == 0) ? 0 : lvElement.getChildAt(0).getTop();
+                elementsSwipeRefreshLayout.setEnabled(firstVisibleItem == 0 && topRowVerticalPosition >= 0);
+            }
+        });
+
         ((StuplaApplication)getApplication()).firstStart = false;
     }
 
 
 
     private void fetchAndShowElementList() {
+        //showMessage(R.string.loading_element_list, false);
+
         // show loading information
         if (!this.elementsSwipeRefreshLayout.isRefreshing()) {
             // instead of just calling elementsSwipeRefreshLayout.setRefreshing(true) call it as follows
@@ -98,23 +122,71 @@ public class MainActivity extends AppCompatActivity {
                                     MainActivity.this,
                                     android.R.layout.simple_list_item_1,
                                     MainActivity.elements);
-                            MainActivity.this.lvElement.setAdapter(arrayAdapter);
-                            MainActivity.this.elementsSwipeRefreshLayout.setRefreshing(false);
+                            lvElement.setAdapter(arrayAdapter);
+                            showElementListView();
                         }
                     });
 
                 } catch (JSONException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showMessage(R.string.unknown_server_error, true);
+                        }
+                    });
                     e.printStackTrace();
                 } catch (IOException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showMessage(R.string.server_not_available, true);
+                        }
+                    });
                     e.printStackTrace();
-                } catch (ServerCantProvideServiceException e) {
+                } catch (final ServerCantProvideServiceException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (e.getServerMessage().equals("")) {
+                                showMessage(R.string.unknown_server_error, true);
+                            }
+                            else {
+                                showMessage(e.getServerMessage(), true);
+                            }
+                        }
+                    });
                     e.printStackTrace();
+                } finally {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            elementsSwipeRefreshLayout.setRefreshing(false);
+                            elementsSwipeRefreshLayout.setEnabled(true);
+                        }
+                    });
                 }
             }
         };
 
         // server request in a separate thread to keep the ui responsive
         thread.start();
+    }
+
+    private void showMessage(int stringResourceId, boolean showSwipeDownHint) {
+        showMessage(getResources().getString(stringResourceId), showSwipeDownHint);
+    }
+
+    private void showMessage(String message, boolean showSwipeDownHint) {
+        lvElement.setVisibility(View.INVISIBLE);
+        tvMessage.setVisibility(View.VISIBLE);
+        tvMessage.setText(message);
+        tvSwipeDownMessage.setVisibility(showSwipeDownHint ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    private void showElementListView() {
+        tvMessage.setVisibility(View.INVISIBLE);
+        tvSwipeDownMessage.setVisibility(View.INVISIBLE);
+        lvElement.setVisibility(View.VISIBLE);
     }
 
     private void showStupla(int elementId) {
