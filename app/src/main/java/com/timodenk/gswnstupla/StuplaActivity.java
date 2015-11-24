@@ -9,17 +9,26 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.AbsListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.timodenk.view.ObservableWebView;
 
 
 public class StuplaActivity extends AppCompatActivity {
     private StuplaControl control;
 
-    public WebView wvStupla;
+    public ObservableWebView wvStupla;
 
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private TextView tvMessage, tvSwipeDownMessage;
+
+    public SwipeRefreshLayout swipeRefreshLayout;
 
     private MenuItem nextWeek = null, previousWeek = null;
 
@@ -30,8 +39,12 @@ public class StuplaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_stupla);
 
 
+        this.tvMessage = (TextView) findViewById(R.id.tvMessage);
+        this.tvSwipeDownMessage = (TextView) findViewById(R.id.tvSwipeDownMessage);
+
+
         // web view settings
-        this.wvStupla = (WebView) findViewById(R.id.wvStupla);
+        this.wvStupla = (ObservableWebView) findViewById(R.id.wvStupla);
         wvStupla.getSettings().setLoadWithOverviewMode(true);
         wvStupla.getSettings().setUseWideViewPort(true); // zoom out
         wvStupla.getSettings().setBuiltInZoomControls(true); // allow to zoom in
@@ -48,6 +61,20 @@ public class StuplaActivity extends AppCompatActivity {
                 if (!url.equals(StuplaControl.URL_ABOUT_BLANK)) {
                     swipeRefreshLayout.setRefreshing(false); // hide loading information
                 }
+            }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                showMessage("Error " + String.valueOf(error.getErrorCode()), true);
+                swipeRefreshLayout.setRefreshing(false); // hide loading information
+            }
+        });
+
+        wvStupla.setOnScrollChangedCallback(new ObservableWebView.OnScrollChangedCallback() {
+            @Override
+            public void onScroll(int l, int t) {
+                swipeRefreshLayout.setEnabled(wvStupla.getScrollY() == 0);
             }
         });
 
@@ -111,6 +138,24 @@ public class StuplaActivity extends AppCompatActivity {
 
         // has to be called to keep the back button working
         return (super.onOptionsItemSelected(item));
+    }
+
+    public void showMessage(int stringResourceId, boolean showSwipeDownHint) {
+        showMessage(getResources().getString(stringResourceId), showSwipeDownHint);
+    }
+
+    public void showMessage(String message, boolean showSwipeDownHint) {
+        wvStupla.setVisibility(View.INVISIBLE);
+        tvMessage.setVisibility(View.VISIBLE);
+        tvMessage.setText(message);
+        tvSwipeDownMessage.setVisibility(showSwipeDownHint ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    public void showWebView() {
+        tvMessage.setVisibility(View.INVISIBLE);
+        tvSwipeDownMessage.setVisibility(View.INVISIBLE);
+
+        wvStupla.setVisibility(View.VISIBLE);
     }
 
     public void showToast(int textResource) {

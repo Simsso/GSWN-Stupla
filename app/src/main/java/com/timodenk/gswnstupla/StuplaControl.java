@@ -64,11 +64,41 @@ class StuplaControl {
                         }
                     });
                 } catch (JSONException e) {
+                    ui.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ui.showMessage(R.string.unknown_server_error, true);
+                        }
+                    });
                     e.printStackTrace();
                 } catch (IOException e) {
+                    ui.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ui.showMessage(R.string.server_not_available, true);
+                        }
+                    });
                     e.printStackTrace();
-                } catch (ServerCantProvideServiceException e) {
+                } catch (final ServerCantProvideServiceException e) {
+                    ui.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (e.getServerMessage().equals("")) {
+                                ui.showMessage(R.string.unknown_server_error, true);
+                            } else {
+                                ui.showMessage(e.getServerMessage(), true);
+                            }
+                        }
+                    });
                     e.printStackTrace();
+                } finally {
+                    ui.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ui.swipeRefreshLayout.setRefreshing(false);
+                            ui.swipeRefreshLayout.setEnabled(true);
+                        }
+                    });
                 }
             }
         };
@@ -91,11 +121,42 @@ class StuplaControl {
                     });
 
                 } catch (JSONException e) {
+                    ui.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ui.showMessage(R.string.unknown_server_error, true);
+                        }
+                    });
                     e.printStackTrace();
                 } catch (IOException e) {
+                    ui.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ui.showMessage(R.string.server_not_available, true);
+                        }
+                    });
                     e.printStackTrace();
-                } catch (ServerCantProvideServiceException e) {
+                } catch (final ServerCantProvideServiceException e) {
+                    ui.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (e.getServerMessage().equals("")) {
+                                ui.showMessage(R.string.unknown_server_error, true);
+                            }
+                            else {
+                                ui.showMessage(e.getServerMessage(), true);
+                            }
+                        }
+                    });
                     e.printStackTrace();
+                } finally {
+                    ui.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ui.swipeRefreshLayout.setRefreshing(false);
+                            ui.swipeRefreshLayout.setEnabled(true);
+                        }
+                    });
                 }
             }
         };
@@ -120,14 +181,46 @@ class StuplaControl {
                         public void run() {
                             // update web view url
                             ui.wvStupla.loadUrl(url);
+                            ui.showWebView();
                         }
                     });
-                } catch (IOException e) {
-                    e.printStackTrace();
                 } catch (JSONException e) {
+                    ui.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ui.showMessage(R.string.unknown_server_error, true);
+                        }
+                    });
                     e.printStackTrace();
-                } catch (ServerCantProvideServiceException e) {
+                } catch (IOException e) {
+                    ui.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ui.showMessage(R.string.server_not_available, true);
+                        }
+                    });
                     e.printStackTrace();
+                } catch (final ServerCantProvideServiceException e) {
+                    ui.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (e.getServerMessage().equals("")) {
+                                ui.showMessage(R.string.unknown_server_error, true);
+                            }
+                            else {
+                                ui.showMessage(e.getServerMessage(), true);
+                            }
+                        }
+                    });
+                    e.printStackTrace();
+                } finally {
+                    ui.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ui.swipeRefreshLayout.setRefreshing(false);
+                            ui.swipeRefreshLayout.setEnabled(true);
+                        }
+                    });
                 }
             }
         };
