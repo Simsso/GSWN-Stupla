@@ -95,7 +95,6 @@ class StuplaControl {
                     ui.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            ui.swipeRefreshLayout.setRefreshing(false);
                             ui.swipeRefreshLayout.setEnabled(true);
                         }
                     });
@@ -153,7 +152,6 @@ class StuplaControl {
                     ui.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            ui.swipeRefreshLayout.setRefreshing(false);
                             ui.swipeRefreshLayout.setEnabled(true);
                         }
                     });
@@ -189,6 +187,8 @@ class StuplaControl {
                         @Override
                         public void run() {
                             ui.showMessage(R.string.unknown_server_error, true);
+
+                            ui.swipeRefreshLayout.setRefreshing(false);
                         }
                     });
                     e.printStackTrace();
@@ -197,6 +197,8 @@ class StuplaControl {
                         @Override
                         public void run() {
                             ui.showMessage(R.string.server_not_available, true);
+
+                            ui.swipeRefreshLayout.setRefreshing(false);
                         }
                     });
                     e.printStackTrace();
@@ -210,6 +212,8 @@ class StuplaControl {
                             else {
                                 ui.showMessage(e.getServerMessage(), true);
                             }
+
+                            ui.swipeRefreshLayout.setRefreshing(false);
                         }
                     });
                     e.printStackTrace();
@@ -217,7 +221,6 @@ class StuplaControl {
                     ui.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            ui.swipeRefreshLayout.setRefreshing(false);
                             ui.swipeRefreshLayout.setEnabled(true);
                         }
                     });
