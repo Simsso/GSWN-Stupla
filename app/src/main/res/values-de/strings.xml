@@ -9,4 +9,6 @@
     <string name="server_not_available">Die Daten konnten nicht vom Server geladen werden. </string>
     <string name="title_activity_message"></string>
     <string name="unknown_server_error">Ein unbekannter Fehler ist aufgetreten.</string>
+    <string name="loading_element_list">Elemente werden geladen</string>
+    <string name="swipe_down_to_retry">Nach unten swipen zum neu Laden</string>
 </resources>
