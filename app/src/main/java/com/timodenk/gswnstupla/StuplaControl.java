@@ -35,7 +35,7 @@ class StuplaControl {
         // show next week on sunday
         if (c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
             if (c.getFirstDayOfWeek() == Calendar.MONDAY) {
-                incrementChosenWeek();
+                this.chosenWeek = incrementWeek(this.chosenWeek);
             }
 
             // show information that the user sees the next week
