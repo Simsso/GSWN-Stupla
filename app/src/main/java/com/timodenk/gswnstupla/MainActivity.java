@@ -10,6 +10,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -19,11 +20,12 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
     public static final String ELEMENT_ID_MESSAGE = "com.timodenk.gswnstupla.ELEMENT_ID_MESSAGE", PREFS_NAME = "GSWN_Stupla_Preferences";
 
-    private ListView lvElement;
+    private ListView lvElements;
 
     private TextView tvMessage, tvSwipeDownMessage;
 
     private SwipeRefreshLayout elementsSwipeRefreshLayout;
+    private ScrollView messagesScrollView;
 
     private static String[] elements;
 
@@ -33,9 +35,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.lvElement = (ListView) findViewById(R.id.lvElements);
+        this.lvElements = (ListView) findViewById(R.id.lvElements);
         this.tvMessage = (TextView) findViewById(R.id.tvMessage);
         this.tvSwipeDownMessage = (TextView) findViewById(R.id.tvSwipeDownMessage);
+        this.messagesScrollView = (ScrollView) findViewById(R.id.messagesScrollView);
 
         // show logo in action bar
         ActionBar actionBar = getSupportActionBar();
@@ -58,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         fetchAndShowElementList();
 
         // listen for click on list element
-        this.lvElement.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        this.lvElements.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 showStupla(position + 1);
@@ -72,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             showStupla(savedElementId);
         }
 
-        lvElement.setOnScrollListener(new AbsListView.OnScrollListener()
+        lvElements.setOnScrollListener(new AbsListView.OnScrollListener()
         {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState)
@@ -83,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
             {
-                int topRowVerticalPosition = (lvElement == null || lvElement.getChildCount() == 0) ? 0 : lvElement.getChildAt(0).getTop();
+                int topRowVerticalPosition = (lvElements == null || lvElements.getChildCount() == 0) ? 0 : lvElements.getChildAt(0).getTop();
                 elementsSwipeRefreshLayout.setEnabled(firstVisibleItem == 0 && topRowVerticalPosition >= 0);
             }
         });
@@ -122,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                                     MainActivity.this,
                                     android.R.layout.simple_list_item_1,
                                     MainActivity.elements);
-                            lvElement.setAdapter(arrayAdapter);
+                            lvElements.setAdapter(arrayAdapter);
                             showElementListView();
                         }
                     });
@@ -177,16 +180,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showMessage(String message, boolean showSwipeDownHint) {
-        lvElement.setVisibility(View.INVISIBLE);
-        tvMessage.setVisibility(View.VISIBLE);
+        // hide list
+        lvElements.setVisibility(View.INVISIBLE);
+
         tvMessage.setText(message);
-        tvSwipeDownMessage.setVisibility(showSwipeDownHint ? View.VISIBLE : View.INVISIBLE);
+        tvSwipeDownMessage.setVisibility(showSwipeDownHint ? View.VISIBLE : View.INVISIBLE);;
+
+        // show messages
+        messagesScrollView.setVisibility(View.VISIBLE);
     }
 
     private void showElementListView() {
-        tvMessage.setVisibility(View.INVISIBLE);
-        tvSwipeDownMessage.setVisibility(View.INVISIBLE);
-        lvElement.setVisibility(View.VISIBLE);
+        // hide messages
+        messagesScrollView.setVisibility(View.INVISIBLE);
+
+        // show list
+        lvElements.setVisibility(View.VISIBLE);
     }
 
     private void showStupla(int elementId) {

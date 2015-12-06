@@ -14,7 +14,6 @@ import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.AbsListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,6 +70,7 @@ public class StuplaActivity extends AppCompatActivity {
             }
         });
 
+        // activate swipe down to refresh only if the WebView is scrolled to the top
         wvStupla.setOnScrollChangedCallback(new ObservableWebView.OnScrollChangedCallback() {
             @Override
             public void onScroll(int l, int t) {
@@ -78,6 +78,7 @@ public class StuplaActivity extends AppCompatActivity {
             }
         });
 
+        // TODO: disable swipe down to refresh when touching with two fingers
 
         // allow swipe down to reload element web page
         this.swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);

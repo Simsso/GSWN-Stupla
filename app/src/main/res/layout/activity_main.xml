@@ -3,17 +3,31 @@
     android:id="@+id/elementsSwipeRefreshLayout"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/lvElements"
+            android:drawSelectorOnTop="true"
+            android:fastScrollEnabled="false"
+            android:fastScrollAlwaysVisible="false"
+            android:padding="16dp"
+            android:visibility="visible"/>
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:fillViewport="true"
+            android:id="@+id/messagesScrollView"
+            android:visibility="invisible">
+
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -21,7 +35,6 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="@string/loading_element_list"
                     android:id="@+id/tvMessage"
-                    android:visibility="invisible"
                     android:padding="16dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="48dp"
@@ -33,7 +46,6 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:id="@+id/tvSwipeDownMessage"
                     android:layout_gravity="center_horizontal"
-                    android:visibility="invisible"
                     android:text="@string/swipe_down_to_retry"
                     android:layout_below="@+id/tvMessage"
                     android:layout_centerHorizontal="true"
@@ -42,21 +54,10 @@
                     android:textAlignment="center"
                     android:gravity="center"/>
 
-                <ListView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/lvElements"
-                    android:drawSelectorOnTop="true"
-                    android:fastScrollEnabled="false"
-                    android:fastScrollAlwaysVisible="false"
-                    android:padding="16dp"
-                    android:visibility="visible"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"/>
-
             </RelativeLayout>
         </ScrollView>
-    </LinearLayout>
+
+    </RelativeLayout>
+
 
 </android.support.v4.widget.SwipeRefreshLayout>
