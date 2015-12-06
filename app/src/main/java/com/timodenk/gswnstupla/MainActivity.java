@@ -1,10 +1,14 @@
 package com.timodenk.gswnstupla;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -18,7 +22,9 @@ import org.json.JSONException;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String ELEMENT_ID_MESSAGE = "com.timodenk.gswnstupla.ELEMENT_ID_MESSAGE", PREFS_NAME = "GSWN_Stupla_Preferences";
+    public static final String ELEMENT_ID_MESSAGE = "com.timodenk.gswnstupla.ELEMENT_ID_MESSAGE",
+            PREFS_NAME = "GSWN_Stupla_Preferences",
+            SOURCE_CODE_URL = "https://github.com/Simsso/GSWN-Stupla";
 
     private ListView lvElements;
 
@@ -114,6 +120,25 @@ public class MainActivity extends AppCompatActivity {
 
         if (lvElementsFirstVisibleItem != -1) {
             localStorage.saveFirstVisibleItem(lvElementsFirstVisibleItem);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.view_sorce_code:
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(SOURCE_CODE_URL));
+                startActivity(browserIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

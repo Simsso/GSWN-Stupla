@@ -9,4 +9,5 @@
     <string name="server_cant_provide_service">The server is currently not able to fulfill its task.</string>
     <string name="loading_element_list">Loading element list</string>
     <string name="swipe_down_to_retry">Swipe down to retry</string>
+    <string name="source_code">Source code</string>
 </resources>

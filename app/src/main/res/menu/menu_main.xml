@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/view_sorce_code"
+        android:title="@string/source_code"
+        android:showAsAction="never"/>
+</menu>

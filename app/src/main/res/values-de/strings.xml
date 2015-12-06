@@ -11,4 +11,5 @@
     <string name="unknown_server_error">Ein unbekannter Fehler ist aufgetreten.</string>
     <string name="loading_element_list">Elemente werden geladen</string>
     <string name="swipe_down_to_retry">Nach unten swipen zum neu Laden</string>
+    <string name="source_code">Quellcode</string>
 </resources>
