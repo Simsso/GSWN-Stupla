@@ -3,4 +3,7 @@
     <item android:id="@+id/view_sorce_code"
         android:title="@string/source_code"
         android:showAsAction="never"/>
+    <item android:id="@+id/view_feedback"
+        android:title="@string/feedback"
+        android:showAsAction="never" />
 </menu>

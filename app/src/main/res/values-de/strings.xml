@@ -12,4 +12,18 @@
     <string name="loading_element_list">Elemente werden geladen</string>
     <string name="swipe_down_to_retry">Nach unten swipen zum neu Laden</string>
     <string name="source_code">Quellcode</string>
+    <string name="title_activity_feedback">Feedback</string>
+    <string name="feedback">Feedback</string>
+    <string name="feedback_info">Schreiben Sie mir, was Sie denken!</string>
+    <string name="could_not_send_feedback">Das Feedback konnte nicht gesendet werden.</string>
+    <string name="email_address">Email-Adresse</string>
+    <string name="enter_a_message">Geben Sie eine Nachricht ein</string>
+    <string name="enter_your_name">Geben Sie Ihren Namen an</string>
+    <string name="feedback_from">GSWN Stupla: Feedback von</string>
+    <string name="gswn_stupla_app">GSWN Stupla App</string>
+    <string name="name">Name</string>
+    <string name="send">Senden</string>
+    <string name="send_feedback">Feedback senden</string>
+    <string name="send_feedback_using">Feedback senden...</string>
+    <string name="your_message">Ihre Nachricht</string>
 </resources>

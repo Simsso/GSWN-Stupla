@@ -137,6 +137,11 @@ public class MainActivity extends AppCompatActivity {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(SOURCE_CODE_URL));
                 startActivity(browserIntent);
                 return true;
+            case R.id.view_feedback:
+                Intent intent = new Intent(MainActivity.this, FeedbackActivity.class);
+                // start stupla activity
+                startActivity(intent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

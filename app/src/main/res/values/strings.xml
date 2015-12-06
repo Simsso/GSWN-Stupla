@@ -10,4 +10,18 @@
     <string name="loading_element_list">Loading element list</string>
     <string name="swipe_down_to_retry">Swipe down to retry</string>
     <string name="source_code">Source code</string>
+    <string name="title_activity_feedback">Feedback</string>
+    <string name="feedback">Feedback</string>
+    <string name="feedback_info">Tell me what you think!</string>
+    <string name="your_message">Your message</string>
+    <string name="email_address">Email-address</string>
+    <string name="name">Name</string>
+    <string name="send">Send</string>
+    <string name="gswn_stupla_app">GSWN Stupla App</string>
+    <string name="send_feedback">Send feedback</string>
+    <string name="feedback_from">GSWN Stupla: Feedback from</string>
+    <string name="send_feedback_using">Send feedback...</string>
+    <string name="could_not_send_feedback">The feedback could not be sent.</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="enter_a_message">Enter a message</string>
 </resources>
