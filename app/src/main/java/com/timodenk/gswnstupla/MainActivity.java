@@ -29,11 +29,18 @@ public class MainActivity extends AppCompatActivity {
 
     private static String[] elements;
 
+    private int lvElementsFirstVisibleItem = -1;
+    private boolean lvElementsFirstVisibleItemAvailable = false;
+
+    private LocalStorage localStorage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        this.localStorage = new LocalStorage(this);
 
         this.lvElements = (ListView) findViewById(R.id.lvElements);
         this.tvMessage = (TextView) findViewById(R.id.tvMessage);
@@ -53,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
+                        // set first visible item to zero when refreshing
+                        // this makes sure that the list will not be scrolled down after it has been fetched from the server
+                        localStorage.saveFirstVisibleItem(0);
+
                         fetchAndShowElementList();
                     }
                 }
@@ -69,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // check whether a stored element id is available
-        int savedElementId = LocalStorage.loadElementId(this);
+        int savedElementId = localStorage.loadElementId();
         if (((StuplaApplication)getApplication()).firstStart && savedElementId >= 0) {
             // if it is show the stupla of the id
             showStupla(savedElementId);
@@ -86,6 +97,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
             {
+                if (lvElementsFirstVisibleItemAvailable) {
+                    MainActivity.this.lvElementsFirstVisibleItem = firstVisibleItem;
+                }
                 int topRowVerticalPosition = (lvElements == null || lvElements.getChildCount() == 0) ? 0 : lvElements.getChildAt(0).getTop();
                 elementsSwipeRefreshLayout.setEnabled(firstVisibleItem == 0 && topRowVerticalPosition >= 0);
             }
@@ -94,7 +108,14 @@ public class MainActivity extends AppCompatActivity {
         ((StuplaApplication)getApplication()).firstStart = false;
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
 
+        if (lvElementsFirstVisibleItem != -1) {
+            localStorage.saveFirstVisibleItem(lvElementsFirstVisibleItem);
+        }
+    }
 
     private void fetchAndShowElementList() {
         //showMessage(R.string.loading_element_list, false);
@@ -126,7 +147,15 @@ public class MainActivity extends AppCompatActivity {
                                     android.R.layout.simple_list_item_1,
                                     MainActivity.elements);
                             lvElements.setAdapter(arrayAdapter);
+
+                            // scroll to the position which has last been visible
+                            lvElements.setSelection(localStorage.loadFirstVisibleItem());
+
+                            // show the list view
                             showElementListView();
+
+                            // enable saving the first visible element onScroll
+                            lvElementsFirstVisibleItemAvailable = true;
                         }
                     });
 
@@ -200,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void showStupla(int elementId) {
         // save which element the user uses
-        LocalStorage.saveElementId(this, elementId);
+        localStorage.saveElementId(elementId);
 
         Intent intent = new Intent(MainActivity.this, StuplaActivity.class);
         // pass the element id to the stupla activity
