@@ -1,7 +1,6 @@
 package com.timodenk.gswnstupla;
 
 import org.json.JSONException;
-
 import java.io.IOException;
 import java.util.Calendar;
 
@@ -256,7 +255,7 @@ class StuplaControl {
     }
 
     private boolean incrementWeekAvailable(int newWeek) {
-        return (!(this.availableWeeks == null) && (weekAvailable(newWeek) || this.availableWeeks[0] > newWeek));
+        return (!(this.availableWeeks == null) && (weekAvailable(newWeek) || this.availableWeeks[0] > newWeek && newWeek > 1));
     }
 
     public boolean decrementWeekAvailable() {
@@ -264,7 +263,7 @@ class StuplaControl {
     }
 
     private boolean decrementWeekAvailable(int newWeek) {
-        return (!(this.availableWeeks == null) && (weekAvailable(newWeek) || this.availableWeeks[this.availableWeeks.length - 1] < newWeek));
+        return (!(this.availableWeeks == null) && (weekAvailable(newWeek) || this.availableWeeks[this.availableWeeks.length - 1] < newWeek && newWeek < getNumberOfWeeksInYearBefore()));
     }
 
 
@@ -284,8 +283,8 @@ class StuplaControl {
     private static int incrementWeek(int week) {
         week++;
 
-        while (week > 52) {
-            week -= 52;
+        while (week > getNumberOfWeeksOfCurrentYear()) {
+            week -= getNumberOfWeeksOfCurrentYear();
         }
 
         return week;
@@ -295,9 +294,28 @@ class StuplaControl {
         week--;
 
         while (week <= 0) {
-            week += 52;
+            week += getNumberOfWeeksInYearBefore();
         }
 
         return week;
+    }
+
+    private static int getNumberOfWeeksInYearBefore() {
+        return getNumberOfWeeksOfYear((Calendar.getInstance()).get(Calendar.YEAR) - 1);
+    }
+
+    private static int getNumberOfWeeksOfCurrentYear() {
+        return getNumberOfWeeksOfYear((Calendar.getInstance()).get(Calendar.YEAR));
+    }
+
+    private static int getNumberOfWeeksOfYear(int year) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, Calendar.DECEMBER);
+        cal.set(Calendar.DAY_OF_MONTH, 31);
+
+        int ordinalDay = cal.get(Calendar.DAY_OF_YEAR);
+        int weekDay = cal.get(Calendar.DAY_OF_WEEK) - 1; // Sunday = 0
+        return (ordinalDay - weekDay + 10) / 7; // number of weeks
     }
 }

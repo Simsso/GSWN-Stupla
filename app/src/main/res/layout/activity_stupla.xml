@@ -3,14 +3,27 @@
     android:id="@+id/swipeRefreshLayout"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <ScrollView
+
+        <com.timodenk.view.ObservableWebView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:id="@+id/wvStupla"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:focusableInTouchMode="true" />
+
+
+        <ScrollView
+            android:id="@+id/scrollViewMessages"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:visibility="invisible">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" >
@@ -21,7 +34,6 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="@string/loading_element_list"
                     android:id="@+id/tvMessage"
-                    android:visibility="invisible"
                     android:padding="16dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="48dp"
@@ -33,7 +45,6 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:id="@+id/tvSwipeDownMessage"
                     android:layout_gravity="center_horizontal"
-                    android:visibility="invisible"
                     android:text="@string/swipe_down_to_retry"
                     android:layout_below="@+id/tvMessage"
                     android:layout_centerHorizontal="true"
@@ -41,17 +52,8 @@
                     android:padding="16dp"
                     android:textAlignment="center"
                     android:gravity="center"/>
-
-                <com.timodenk.view.ObservableWebView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/wvStupla"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
-                    android:focusableInTouchMode="true" />
             </RelativeLayout>
         </ScrollView>
-    </LinearLayout>
+    </RelativeLayout>
 
 </android.support.v4.widget.SwipeRefreshLayout>

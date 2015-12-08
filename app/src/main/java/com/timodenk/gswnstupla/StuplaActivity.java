@@ -14,6 +14,7 @@ import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ public class StuplaActivity extends AppCompatActivity {
     private TextView tvMessage, tvSwipeDownMessage;
 
     public SwipeRefreshLayout swipeRefreshLayout;
+    private ScrollView scrollViewMessages;
 
     private MenuItem nextWeek = null, previousWeek = null;
 
@@ -40,6 +42,7 @@ public class StuplaActivity extends AppCompatActivity {
 
         this.tvMessage = (TextView) findViewById(R.id.tvMessage);
         this.tvSwipeDownMessage = (TextView) findViewById(R.id.tvSwipeDownMessage);
+        this.scrollViewMessages = (ScrollView) findViewById(R.id.scrollViewMessages);
 
 
         // web view settings
@@ -147,14 +150,13 @@ public class StuplaActivity extends AppCompatActivity {
 
     public void showMessage(String message, boolean showSwipeDownHint) {
         wvStupla.setVisibility(View.INVISIBLE);
-        tvMessage.setVisibility(View.VISIBLE);
         tvMessage.setText(message);
         tvSwipeDownMessage.setVisibility(showSwipeDownHint ? View.VISIBLE : View.INVISIBLE);
+        scrollViewMessages.setVisibility(View.VISIBLE);
     }
 
     public void showWebView() {
-        tvMessage.setVisibility(View.INVISIBLE);
-        tvSwipeDownMessage.setVisibility(View.INVISIBLE);
+        scrollViewMessages.setVisibility(View.INVISIBLE);
 
         wvStupla.setVisibility(View.VISIBLE);
     }
