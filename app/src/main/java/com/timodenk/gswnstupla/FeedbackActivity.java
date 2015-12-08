@@ -10,7 +10,7 @@ import android.widget.Toast;
 public class FeedbackActivity extends AppCompatActivity {
     private static final int SEND_MAIL_REQUEST_CODE = 1;
 
-    private static final String FEEDBACK_RECIPENT_EMAIL_ADDRESS = "android@timodenk.com";
+    private static final String FEEDBACK_RECIPIENT_EMAIL_ADDRESS = "android@timodenk.com";
 
 
     @Override
@@ -37,7 +37,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("message/rfc822");
-        i.putExtra(Intent.EXTRA_EMAIL, new String[] { FEEDBACK_RECIPENT_EMAIL_ADDRESS });
+        i.putExtra(Intent.EXTRA_EMAIL, new String[] { FEEDBACK_RECIPIENT_EMAIL_ADDRESS });
         i.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.feedback_from) + " " + name);
         i.putExtra(Intent.EXTRA_TEXT, message);
 

@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
         lvElements.setVisibility(View.INVISIBLE);
 
         tvMessage.setText(message);
-        tvSwipeDownMessage.setVisibility(showSwipeDownHint ? View.VISIBLE : View.INVISIBLE);;
+        tvSwipeDownMessage.setVisibility(showSwipeDownHint ? View.VISIBLE : View.INVISIBLE);
 
         // show messages
         messagesScrollView.setVisibility(View.VISIBLE);
