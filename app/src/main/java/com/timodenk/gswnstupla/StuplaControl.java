@@ -2,11 +2,16 @@ package com.timodenk.gswnstupla;
 
 import org.json.JSONException;
 import java.io.IOException;
+import java.util.GregorianCalendar;
 import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 
 class StuplaControl {
     public static final String URL_ABOUT_BLANK = "about:blank";
+
+    private static GregorianCalendar calendar = new GregorianCalendar(TimeZone.getTimeZone("Europe/Berlin"), Locale.GERMAN);
 
     private final StuplaActivity ui;
 
@@ -28,12 +33,11 @@ class StuplaControl {
 
     private void initialize() {
         // set week to current week
-        Calendar c = Calendar.getInstance();
-        this.chosenWeek = c.get(Calendar.WEEK_OF_YEAR);
+        this.chosenWeek = calendar.get(Calendar.WEEK_OF_YEAR);
 
         // show next week on sunday
-        if (c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-            if (c.getFirstDayOfWeek() == Calendar.MONDAY) {
+        if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+            if (calendar.getFirstDayOfWeek() == Calendar.MONDAY) {
                 this.chosenWeek = incrementWeek(this.chosenWeek);
             }
 
@@ -255,7 +259,7 @@ class StuplaControl {
     }
 
     private boolean incrementWeekAvailable(int newWeek) {
-        return (!(this.availableWeeks == null) && (weekAvailable(newWeek) || this.availableWeeks[0] > newWeek && newWeek > 1));
+        return (!(this.availableWeeks == null) && (weekAvailable(newWeek) || this.availableWeeks[0] > newWeek && newWeek > 1 && !weekAvailable(decrementWeek(newWeek))));
     }
 
     public boolean decrementWeekAvailable() {
@@ -263,7 +267,7 @@ class StuplaControl {
     }
 
     private boolean decrementWeekAvailable(int newWeek) {
-        return (!(this.availableWeeks == null) && (weekAvailable(newWeek) || this.availableWeeks[this.availableWeeks.length - 1] < newWeek && newWeek < getNumberOfWeeksInYearBefore()));
+        return (!(this.availableWeeks == null) && (weekAvailable(newWeek) || this.availableWeeks[this.availableWeeks.length - 1] < newWeek && newWeek < getNumberOfWeeksInYearBefore() && !weekAvailable(incrementWeek(newWeek))));
     }
 
 
@@ -301,21 +305,20 @@ class StuplaControl {
     }
 
     private static int getNumberOfWeeksInYearBefore() {
-        return getNumberOfWeeksOfYear((Calendar.getInstance()).get(Calendar.YEAR) - 1);
+        return getNumberOfWeeksOfYear(calendar.get(Calendar.YEAR) - 1);
     }
 
     private static int getNumberOfWeeksOfCurrentYear() {
-        return getNumberOfWeeksOfYear((Calendar.getInstance()).get(Calendar.YEAR));
+        return getNumberOfWeeksOfYear(calendar.get(Calendar.YEAR));
     }
 
     private static int getNumberOfWeeksOfYear(int year) {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, year);
-        cal.set(Calendar.MONTH, Calendar.DECEMBER);
-        cal.set(Calendar.DAY_OF_MONTH, 31);
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, Calendar.DECEMBER);
+        calendar.set(Calendar.DAY_OF_MONTH, 31);
 
-        int ordinalDay = cal.get(Calendar.DAY_OF_YEAR);
-        int weekDay = cal.get(Calendar.DAY_OF_WEEK) - 1; // Sunday = 0
+        int ordinalDay = calendar.get(Calendar.DAY_OF_YEAR);
+        int weekDay = calendar.get(Calendar.DAY_OF_WEEK) - 1; // Sunday = 0
         return (ordinalDay - weekDay + 10) / 7; // number of weeks
     }
 }
