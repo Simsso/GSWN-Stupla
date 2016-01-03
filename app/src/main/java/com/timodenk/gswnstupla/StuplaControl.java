@@ -287,8 +287,8 @@ class StuplaControl {
     private static int incrementWeek(int week) {
         week++;
 
-        while (week > getNumberOfWeeksOfCurrentYear()) {
-            week -= getNumberOfWeeksOfCurrentYear();
+        while (week > getNumberOfWeeksInYearBefore()) {
+            week -= getNumberOfWeeksInYearBefore();
         }
 
         return week;
