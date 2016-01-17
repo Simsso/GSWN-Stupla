@@ -11,7 +11,7 @@ import java.util.TimeZone;
 class StuplaControl {
     public static final String URL_ABOUT_BLANK = "about:blank";
 
-    private static GregorianCalendar calendar = new GregorianCalendar(TimeZone.getTimeZone("Europe/Berlin"), Locale.GERMAN);
+    private GregorianCalendar calendar = new GregorianCalendar(TimeZone.getTimeZone("Europe/Berlin"), Locale.GERMAN);
 
     private final StuplaActivity ui;
 
@@ -305,20 +305,21 @@ class StuplaControl {
     }
 
     private static int getNumberOfWeeksInYearBefore() {
-        return getNumberOfWeeksOfYear(calendar.get(Calendar.YEAR) - 1);
+        return getNumberOfWeeksOfYear(Calendar.getInstance().get(Calendar.YEAR) - 1);
     }
 
     private static int getNumberOfWeeksOfCurrentYear() {
-        return getNumberOfWeeksOfYear(calendar.get(Calendar.YEAR));
+        return getNumberOfWeeksOfYear(Calendar.getInstance().get(Calendar.YEAR));
     }
 
     private static int getNumberOfWeeksOfYear(int year) {
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, Calendar.DECEMBER);
-        calendar.set(Calendar.DAY_OF_MONTH, 31);
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, Calendar.DECEMBER);
+        c.set(Calendar.DAY_OF_MONTH, 31);
 
-        int ordinalDay = calendar.get(Calendar.DAY_OF_YEAR);
-        int weekDay = calendar.get(Calendar.DAY_OF_WEEK) - 1; // Sunday = 0
+        int ordinalDay = c.get(Calendar.DAY_OF_YEAR);
+        int weekDay = c.get(Calendar.DAY_OF_WEEK) - 1; // Sunday = 0
         return (ordinalDay - weekDay + 10) / 7; // number of weeks
     }
 }
