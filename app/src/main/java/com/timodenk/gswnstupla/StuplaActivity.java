@@ -167,6 +167,8 @@ public class StuplaActivity extends AppCompatActivity {
 
 
     public void updateChangeWeekButtons() {
+        if (nextWeek == null || previousWeek == null) return;
+
         // next week button
         boolean incrementAvailable = control.incrementWeekAvailable();
         nextWeek.setEnabled(incrementAvailable);
