@@ -259,7 +259,7 @@ class StuplaControl {
     }
 
     private boolean incrementWeekAvailable(int newWeek) {
-        return (!(this.availableWeeks == null) && (weekAvailable(newWeek) || this.availableWeeks[0] > newWeek && newWeek > 1 && !weekAvailable(decrementWeek(newWeek))));
+        return (!(this.availableWeeks == null || this.availableWeeks.length == 0) && (weekAvailable(newWeek) || this.availableWeeks[0] > newWeek && newWeek > 1 && !weekAvailable(decrementWeek(newWeek))));
     }
 
     public boolean decrementWeekAvailable() {
@@ -267,7 +267,7 @@ class StuplaControl {
     }
 
     private boolean decrementWeekAvailable(int newWeek) {
-        return (!(this.availableWeeks == null) && (weekAvailable(newWeek) || this.availableWeeks[this.availableWeeks.length - 1] < newWeek && newWeek < getNumberOfWeeksInYearBefore() && !weekAvailable(incrementWeek(newWeek))));
+        return (!(this.availableWeeks == null || this.availableWeeks.length == 0) && (weekAvailable(newWeek) || this.availableWeeks[this.availableWeeks.length - 1] < newWeek && newWeek < getNumberOfWeeksInYearBefore() && !weekAvailable(incrementWeek(newWeek))));
     }
 
 
