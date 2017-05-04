@@ -8,8 +8,8 @@ android {
         applicationId "com.timodenk.gswnstupla"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 9
-        versionName "1.2.6"
+        versionCode 10
+        versionName "1.2.7"
     }
     buildTypes {
         release {
