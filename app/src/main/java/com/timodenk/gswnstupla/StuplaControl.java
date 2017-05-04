@@ -9,7 +9,7 @@ import java.util.TimeZone;
 
 
 class StuplaControl {
-    public static final String URL_ABOUT_BLANK = "about:blank";
+    static final String URL_ABOUT_BLANK = "about:blank";
 
     private GregorianCalendar calendar = new GregorianCalendar(TimeZone.getTimeZone("Europe/Berlin"), Locale.GERMAN);
 
@@ -23,7 +23,7 @@ class StuplaControl {
     private String chosenElementName;
 
 
-    public StuplaControl(StuplaActivity stuplaActivity, int chosenElementId) {
+    StuplaControl(StuplaActivity stuplaActivity, int chosenElementId) {
         this.ui = stuplaActivity;
         this.chosenElementId = chosenElementId;
 
@@ -53,7 +53,7 @@ class StuplaControl {
         downloadAvailableWeeks();
     }
 
-    public void downloadAvailableWeeks() {
+    void downloadAvailableWeeks() {
         // download the available weeks
         Thread thread = new Thread() {
             @Override
@@ -108,7 +108,7 @@ class StuplaControl {
         thread.start();
     }
 
-    public void updateTaskBarElementName() {
+    void updateTaskBarElementName() {
         // download the name of the chosen element
         Thread thread = new Thread() {
             @Override
@@ -166,7 +166,7 @@ class StuplaControl {
     }
 
 
-    public void updateWebView() {
+    void updateWebView() {
         // clear the web view
         this.ui.wvStupla.loadUrl(URL_ABOUT_BLANK);
 
@@ -234,7 +234,7 @@ class StuplaControl {
         thread.start();
     }
 
-    public boolean incrementChosenWeek() {
+    boolean incrementChosenWeek() {
         int tmp = incrementWeek(this.chosenWeek);
 
         if (incrementWeekAvailable(tmp)) {
@@ -244,7 +244,7 @@ class StuplaControl {
         return false;
     }
 
-    public boolean decrementChosenWeek() {
+    boolean decrementChosenWeek() {
         int tmp = decrementWeek(this.chosenWeek);
 
         if (decrementWeekAvailable(tmp)) {
@@ -254,7 +254,7 @@ class StuplaControl {
         return false;
     }
 
-    public boolean incrementWeekAvailable() {
+    boolean incrementWeekAvailable() {
         return incrementWeekAvailable(incrementWeek(this.chosenWeek));
     }
 
@@ -262,7 +262,7 @@ class StuplaControl {
         return (!(this.availableWeeks == null || this.availableWeeks.length == 0) && (weekAvailable(newWeek) || this.availableWeeks[0] > newWeek && newWeek > 1 && !weekAvailable(decrementWeek(newWeek))));
     }
 
-    public boolean decrementWeekAvailable() {
+    boolean decrementWeekAvailable() {
         return decrementWeekAvailable(decrementWeek(this.chosenWeek));
     }
 

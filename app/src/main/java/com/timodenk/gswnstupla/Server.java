@@ -13,13 +13,13 @@ import java.io.IOException;
 
 class Server {
     // server links
-    private static final String ELEMENTS_ADDRESS = "http://www.simsso.de/gswnstupla/elements.php";
-    private static final String ELEMENT_NAME_ADDRESS = "http://www.simsso.de/gswnstupla/element-name.php";
-    private static final String ELEMENT_URL_ADDRESS = "http://www.simsso.de/gswnstupla/url.php";
-    private static final String AVAILABLE_WEEKS_ADDRESS = "http://www.simsso.de/gswnstupla/available-weeks.php";
+    private static final String ELEMENTS_ADDRESS = "https://timodenk.com/gswnstupla/elements.php",
+            ELEMENT_NAME_ADDRESS = "https://timodenk.com/gswnstupla/element-name.php",
+            ELEMENT_URL_ADDRESS = "https://timodenk.com/gswnstupla/url.php",
+            AVAILABLE_WEEKS_ADDRESS = "https://timodenk.com/gswnstupla/available-weeks.php";
 
     // fetches the element names from the server
-    public static String[] getElementNames() throws IOException, JSONException, ServerCantProvideServiceException {
+    static String[] getElementNames() throws IOException, JSONException, ServerCantProvideServiceException {
         JSONObject response = JsonReader.readJsonFromUrl(ELEMENTS_ADDRESS);
         checkServerResponse(response);
 
@@ -42,7 +42,7 @@ class Server {
 
 
     // loads the name of a element by it's id from the server
-    public static String getElementName(int elementId) throws IOException, JSONException, ServerCantProvideServiceException {
+    static String getElementName(int elementId) throws IOException, JSONException, ServerCantProvideServiceException {
         GetParameter[] parameters = new GetParameter[] {
                 new GetParameter("element_id", String.valueOf(elementId) )
         };
@@ -55,7 +55,7 @@ class Server {
 
 
     // load the url of an element's stupla from the server
-    public static String getElementUrl(int elementId, int week) throws IOException, JSONException, ServerCantProvideServiceException {
+    static String getElementUrl(int elementId, int week) throws IOException, JSONException, ServerCantProvideServiceException {
         GetParameter[] parameters = new GetParameter[] {
                 new GetParameter("element_id", String.valueOf(elementId) ),
                 new GetParameter("week", String.valueOf(week))
@@ -69,7 +69,7 @@ class Server {
 
 
     // fetches the available weeks from the server
-    public static int[] getAvailableWeeks() throws IOException, JSONException, ServerCantProvideServiceException {
+    static int[] getAvailableWeeks() throws IOException, JSONException, ServerCantProvideServiceException {
         JSONObject response = JsonReader.readJsonFromUrl(AVAILABLE_WEEKS_ADDRESS);
         checkServerResponse(response);
 

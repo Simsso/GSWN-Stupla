@@ -9,27 +9,27 @@ class LocalStorage {
 
     private Context context;
 
-    public LocalStorage(Context context) {
+    LocalStorage(Context context) {
         this.context = context;
     }
 
     // stores an element id
-    public void saveElementId(int elementId) {
+    void saveElementId(int elementId) {
         setInt(ELEMENT_ID_KEY, elementId);
     }
 
     // loads the stored element id
-    public int loadElementId() {
+    int loadElementId() {
         return getInt(ELEMENT_ID_KEY, -1);
     }
 
     // stores an element id
-    public void saveFirstVisibleItem(int firstVisibleItem) {
+    void saveFirstVisibleItem(int firstVisibleItem) {
         setInt(FIRST_VISIBLE_ITEM_KEY, firstVisibleItem);
     }
 
     // loads the stored element id
-    public int loadFirstVisibleItem() {
+    int loadFirstVisibleItem() {
         return getInt(FIRST_VISIBLE_ITEM_KEY, 0);
     }
 
